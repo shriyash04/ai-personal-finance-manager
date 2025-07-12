@@ -21,9 +21,8 @@ const serializeTransaction = (obj) => {
 // Cached user lookup to avoid repeated database calls
 const getCachedUser = unstable_cache(
   async (userId) => {
-    return await db.user.findUnique({
-      where: { clerkUserId: userId },
-    });
+    // Only fetch from DB, do not use dynamic Clerk helpers here
+    return await db.user.findUnique({ where: { clerkUserId: userId } });
   },
   ['user-lookup'],
   { revalidate: 300 } // Cache for 5 minutes

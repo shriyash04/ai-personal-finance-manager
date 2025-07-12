@@ -6,15 +6,14 @@ import { BudgetProgress } from "./_components/budget-progress";
 import { Card, CardContent } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { DashboardOverview } from "./_components/transaction-overview";
+import { checkUser } from "@/lib/checkUser";
 
 export default async function DashboardPage() {
-  // Use optimized function that fetches all data in parallel
-  const { auth } = await import("@clerk/nextjs/server");
-  const { userId } = await auth();
-  
-  const dashboardData = await getDashboardDataOptimized(userId);
+  // Use checkUser to ensure user exists in DB and get userId
+  const user = await checkUser();
+  if (!user) throw new Error("User not found");
+  const dashboardData = await getDashboardDataOptimized(user.clerkUserId);
   const { accounts, transactions } = dashboardData;
-  
   // Get budget data using optimized function
   const budgetData = await getBudgetDataOptimized();
 

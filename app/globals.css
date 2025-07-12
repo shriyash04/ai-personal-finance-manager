@@ -10,6 +10,10 @@ html {
   scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
