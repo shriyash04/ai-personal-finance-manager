@@ -85,3 +85,5 @@ pnpm-lock.yaml
 
 # Static files cache
 .cache/
+ 
+# Allow editing `.env` in editor (override earlier ignore rules)
