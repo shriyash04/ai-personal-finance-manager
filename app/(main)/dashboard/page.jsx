@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { getDashboardDataOptimized, getBudgetDataOptimized } from "@/actions/dashboard";
 import { AccountCard } from "./_components/account-card";
 import { CreateAccountDrawer } from "@/components/create-account-drawer";
@@ -11,7 +12,9 @@ import { checkUser } from "@/lib/checkUser";
 export default async function DashboardPage() {
   // Use checkUser to ensure user exists in DB and get userId
   const user = await checkUser();
-  if (!user) throw new Error("User not found");
+  if (!user) {
+    redirect("/sign-in");
+  }
   const dashboardData = await getDashboardDataOptimized(user.clerkUserId);
   const { accounts, transactions } = dashboardData;
   // Get budget data using optimized function
